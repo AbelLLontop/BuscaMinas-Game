@@ -3,6 +3,8 @@ document.oncontextmenu = function(){
 	return false;
 }
 
+let menu = document.getElementById('menu');
+
 let descubierto = {icono2:'⛨',icono:'🍯',color:'blue'};
 
 let mina = {icono2:'☢',icono:'🐻',color:'orange'};
@@ -148,10 +150,14 @@ class Contenedor{
 					if(this.nodos[i][j].estado==3){
 					this.nodos[i][j].div.innerHTML =descubierto.icono;
 						this.nodos[i][j].div.style.color=descubierto.color;	
+						this.nodos[i][j].div.style.background="rgb(27, 27, 27)"
 	
+
 					}else{
 					this.nodos[i][j].div.innerHTML =mina.icono
-					this.nodos[i][j].div.style.color=mina.color;
+					this.nodos[i][j].div.style.color=mina.color;	
+					this.nodos[i][j].div.style.background="rgb(27, 27, 27)"
+
 					}
 				}
 	}}	
@@ -214,6 +220,7 @@ class Nodo{
 		if(this.estado==1){
 			if(this.valor!=0){
 				this.div.innerHTML = this.valor;
+				
 			}
 		
 		}
@@ -242,6 +249,7 @@ class Nodo{
 	}
 	muerte(){
 		activarMinas(buscaMina);
+		menu.style.height = '100%';
 	}
 }
 
@@ -256,14 +264,16 @@ function agregarMinas(buscaMina,primerCuadrito){
 	this.bus.primerJuego(primerCuadrito);
 }
 
-var buscaMina = new Contenedor(40,10,20,container,50);
+var buscaMina = new Contenedor(40,20,40,container,24);
 
 
 	
 function reiniciar(){
 	primerJugada=false;
 	container.innerHTML='';
-	buscaMina = new Contenedor(10,20,20,container,28);
+	buscaMina = new Contenedor(10,14,14,container,28);
+	menu.style.height = '0';
+
 }
 
 
