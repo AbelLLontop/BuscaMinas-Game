@@ -14,7 +14,6 @@
 	flex-direction: column;
 }
 #menu{
-
 	position: fixed;
 	width: 100%;
 	height: 100%;
@@ -35,6 +34,33 @@ flex-direction: column;
 	font-size: 80px;
 	text-shadow: -4px 5px 22px black;
 }
+
+#menu2{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,.4);
+	left: 0;
+	top: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	height: 0;
+	transition: all ease .4s;
+	z-index: 2;
+flex-direction: column;
+}
+#menu2 h3{
+	color:white;
+	font-size: 80px;
+	text-shadow: -4px 5px 22px black;
+}
+#menu2 h3 svg{
+	width: 60px;
+	color:white;
+	fill:white;
+}
 #contenedorPrincipal h1{
 	font-size: 32px;
 	padding: 16px;
@@ -42,6 +68,14 @@ flex-direction: column;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	width: 100%;
+}
+#contenedorPrincipal h1 header{
+	display: flex;
+	align-items: center;
+	width: 100%;
+	justify-content: center;
+	position: relative;
 }
 #contenedorPrincipal h1 span{
 	font-size: 16px;
@@ -56,7 +90,7 @@ flex-direction: column;
 
 
 
-.nodo{
+.nodoPanal{
 	width: 100% !important;
 	height: 100% !important	;
 	background:orange;
@@ -73,34 +107,126 @@ flex-direction: column;
 	box-shadow: 1px 1px 1px 4px orange;
 }
 
-.panal{
-	border-radius: 8px;
-box-shadow: 1px 1px 1px 4px orange;}
 
-.nodo:hover{
+.nodoPanal:hover{
 	border:solid 1px #69e2ba;
 	background: #393939;
 }
+
+
+
+.nodoFrozen{
+	    width: 100% !important;
+    height: 100% !important;
+    background: #88edf6;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'calibri';
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: normal;
+    border-radius: 8px;
+    box-shadow: 0px 0px 3px 1px rgb(82 228 229);
+}
+
+
+.nodoFrozen:hover{
+	border:solid 1px #69e2ba;
+	background: #393939;
+}
+
+
+.nodoToxico{
+	  width: 100% !important;
+    height: 100% !important;
+    background: #12ff00;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'calibri';
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: normal;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px 1px rgb(8 255 52);
+}
+
+
+.nodoToxico:hover{
+	border:solid 1px #69e2ba;
+	background: #393939;
+}
+
+
+
+
+
+
+
+
+
+
 body{
 	background: #202020;
 }
 
 
-#rei{
+.botones{
+	display: flex;
+	gap:20px;
+}
+.botones_nivel{
+	display: flex;
+	gap:20px;
+}
+.botones_nivel button{
 	padding: 8px;
-	font-size: 16px;
-	font-family: 'calibri';
-	background:black;
-	color: #00ff35;
-	border-radius: 20px;
-	outline: none; 
-	border:none;
-	cursor: pointer;
+    font-size: 16px;
+    font-family: 'calibri';
+    background: #131313;
+    color: #ffffff;
+    border-radius: 4px;
+    outline: none;
+    border: solid #343434 1px;
+    cursor: pointer;
+}
+.condifg_n{
+	padding: 8px;
+	font-size: 24px;
+	color:white;
+}
+.rei{
+	padding: 8px;
+    font-size: 16px;
+    font-family: 'calibri';
+    background: #131313;
+    color: #ffffff;
+    border-radius: 4px;
+    outline: none;
+    border: solid #343434 1px;
+    cursor: pointer;
+}
+
+.rei:hover{
+	background:#242424;
 }
 
 
 
+#OpenMenu{
+	position: absolute;
+	right: 2%;
+	cursor: pointer;
+}
+#OpenMenu:hover{
+	opacity: .8;
+
+}
 
 
-
-
+#OpenMenu svg{
+	width: 20px;
+}

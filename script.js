@@ -3,50 +3,74 @@ document.oncontextmenu = function(){
 	return false;
 }
 
+let textoModo = document.getElementById('modo');
 let menu = document.getElementById('menu');
+let menu2 = document.getElementById('menu2');
 
-let descubierto = {icono2:'⛨',icono:'🍯',color:'blue'};
+let modos = {
+	frozen:{
+		titulo:'Modo Pingui!🐧',
+		clase:'nodoFrozen',
+		normal:{fondo:'#88edf6',shadow:'0px 0px 3px 1px rgb(82 228 229)'},
+		descubierto:{icono:'🐟',color:'blue',fondo:'rgb(27, 27, 27)'},
+		mina:{icono:'🦈',color:'orange',fondo:'rgb(27, 27, 27)'},
+		minador:{icono:'🐧',color:'red',fondo:'',shadow:'0px 0px 3px 1px rgb(82 228 229)'}		
+	},
+	panal:{
+		titulo:'Modo Panal🐝',
+		clase:'nodoPanal',
+		normal:{fondo:'orange',shadow:'1px 1px 1px 4px orange'},
+		descubierto:{icono:'🍯',color:'blue',fondo:'rgb(27, 27, 27)'},
+		mina:{icono:'🐻',color:'orange',fondo:'rgb(27, 27, 27)'},
+		minador:{icono:'🐝',color:'red',fondo:'',shadow:'1px 1px 1px 4px orange'}
 
-let mina = {icono2:'☢',icono:'🐻',color:'orange'};
-let color3= 'blue';
-let minador={icono:'🐝',icono2:'⛑',color:'red'};
+	},
+	toxico:{
+		titulo:'Modo Toxic!☢',
+		clase:'nodoToxico',
+		normal:{fondo:'#12ff00',shadow:'0px 0px 15px 1px rgb(8 255 52)'},
+		descubierto:{icono:'⛨',color:'#d50101',fondo:'rgb(27, 27, 27)'},
+		mina:{icono:'☢',color:'yellow',fondo:'rgb(27, 27, 27)'},
+		minador:{icono:'⛑',color:'red',fondo:'#2c8c25',shadow:'none'}
+	}
+}
+
+
 
 let imagenBarra={icono:'◉',color:'blue'};
+let estilo={color2:'#1b1b1b',color:'#343737'}
+
+
+
+
 
 
 var container = document.getElementById('container');
-
 var primerCuadrito=[1,1];
 var primerJugada=false;
 
 class Contenedor{
-	constructor(nMinas, nNodosH, nNodosV,container,size){
+	constructor(nMinas, nNodosH, nNodosV,container,size,modo){
 		this.container = container;
 		this.nMinas = nMinas;
 		this.nNodosH = nNodosH;
 		this.nNodosV = nNodosV;
 		this.size = size;
+		this.modo = modo;
+		textoModo.innerHTML = this.modo.titulo;
 
 		this.nodos = new Array(this.nNodosH);
 		for (var i = 0; i < this.nodos.length; i++) {
 			this.nodos[i]= new Array(this.nNodosV);
 		}
-
 		this.crear();
 		this.crearGrid();
 		this.llenarGrid();
 	}
-
-
-
-
-
-
-
 	crear(){
 		for (var i = 0; i < this.nNodosH; i++) {
 			for (var j = 0; j < this.nNodosV; j++) {
-				this.nodos[i][j]=new Nodo(i,j);
+				this.nodos[i][j]=new Nodo(i,j,this.modo);
 			}
 		}
 
@@ -68,9 +92,6 @@ class Contenedor{
 				this.nodos[i][this.nNodosV-1].estado=4;
 		}
 	}
-	
-	
-
 	primerJuego(primerCuadrito){
 	
 			for (var i = 0; i <=2; i++) {
@@ -109,11 +130,8 @@ class Contenedor{
 							if (this.nodos[i+1-a][j+1-b].mina && (a!=1 || b!=1)) {
 								numerominas++;
 							}
-
 						}
 					}
-
-			
 				this.nodos[i][j].vecinos.primero = this.nodos[i-1][j-1];
 				this.nodos[i][j].vecinos.segundo = this.nodos[i-1][j];
 				this.nodos[i][j].vecinos.tercero = this.nodos[i-1][j+1];
@@ -148,15 +166,15 @@ class Contenedor{
 			for (var j = 1; j < this.nNodosV-1; j++) {
 				if(this.nodos[i][j].mina){
 					if(this.nodos[i][j].estado==3){
-					this.nodos[i][j].div.innerHTML =descubierto.icono;
-						this.nodos[i][j].div.style.color=descubierto.color;	
-						this.nodos[i][j].div.style.background="rgb(27, 27, 27)"
+					this.nodos[i][j].div.innerHTML =this.modo.descubierto.icono;
+						this.nodos[i][j].div.style.color=this.modo.descubierto.color;	
+						this.nodos[i][j].div.style.background=this.modo.descubierto.fondo;
 	
 
 					}else{
-					this.nodos[i][j].div.innerHTML =mina.icono
-					this.nodos[i][j].div.style.color=mina.color;	
-					this.nodos[i][j].div.style.background="rgb(27, 27, 27)"
+					this.nodos[i][j].div.innerHTML =this.modo.mina.icono
+					this.nodos[i][j].div.style.color=this.modo.mina.color;	
+					this.nodos[i][j].div.style.background=this.modo.mina.fondo;
 
 					}
 				}
@@ -164,14 +182,15 @@ class Contenedor{
 	}
 }
 class Nodo{
-	constructor(x,y){
+	constructor(x,y,modo){
+		this.modo=modo;
 		this.posX = x;
 		this.posY = y;
 		this.mina = false;
 		this.valor = 0;
 		this.estado = 1;
 		this.div = document.createElement('div');
-		this.div.classList.add('nodo');
+		this.div.classList.add(this.modo.clase);
 	
 		this.div.addEventListener('click',()=>{
 			if(!primerJugada && this.estado!=4){
@@ -183,8 +202,8 @@ class Nodo{
 			}else{
 			if(this.estado==1){
 			if(this.mina){
-				this.div.innerHTML =mina.icono
-				this.div.style.color = mina.color;
+				this.div.innerHTML =this.modo.mina.icono
+				this.div.style.color = this.modo.mina.color;
 				this.estado=2;
 				this.muerte();
 			}else{
@@ -198,9 +217,13 @@ class Nodo{
 			if(this.estado==3){
 				this.estado=1;
 				this.div.innerHTML =' '
+					this.div.style.background = this.modo.normal.fondo;
+					this.div.style.boxShadow = this.modo.normal.shadow;
 			}else if(this.estado==1){
 				this.estado=3;
-			this.div.innerHTML =minador.icono;
+			this.div.innerHTML =this.modo.minador.icono;
+			this.div.style.background = this.modo.minador.fondo;
+			this.div.style.boxShadow = this.modo.minador.shadow;
 			}			
 		})
 		this.vecinos ={
@@ -219,6 +242,7 @@ class Nodo{
 
 		if(this.estado==1){
 			if(this.valor!=0){
+
 				this.div.innerHTML = this.valor;
 				
 			}
@@ -231,7 +255,7 @@ class Nodo{
 	explosion(){		
 		if(this.valor==0 && this.estado==1){
 			this.estado=2;
-			this.div.style.background = '#1b1b1b';
+			this.div.style.background = estilo.color;
 			this.div.style.border = 'none';
 			this.div.style.boxShadow  = 'none';
 				for(let i in this.vecinos){
@@ -243,7 +267,9 @@ class Nodo{
 		}else{
 			if(this.estado==1){
 				this.estado=2;
+				//Estilos del estado seleccionado
 				this.div.style.background = '#1b1b1b';
+				this.div.style.boxShadow = 'none';
 			}
 		}
 	}
@@ -264,15 +290,88 @@ function agregarMinas(buscaMina,primerCuadrito){
 	this.bus.primerJuego(primerCuadrito);
 }
 
-var buscaMina = new Contenedor(40,20,40,container,24);
 
 
+
+
+let configTabla = {
+	minas:10,
+	x:11,
+	y:11,
+	size:48,
+	modo:modos.panal
+}
+
+
+
+
+
+
+var buscaMina = new Contenedor(configTabla.minas,configTabla.x,configTabla.y,container,configTabla.size,configTabla.modo);
 	
-function reiniciar(){
+
+
+function cambiarNivel(contador){
+		switch (contador) {
+			case 1:
+				configTabla.minas=10;
+				configTabla.x=11;
+				configTabla.y=11;
+				configTabla.size=48;
+				break;
+			case 2:
+				configTabla.minas=40;
+				configTabla.x=18;
+				configTabla.y=18;
+				configTabla.size=28;
+			break;
+			case 3:
+				configTabla.minas=99;
+				configTabla.x=18;
+				configTabla.y=32;
+				configTabla.size=28;
+			break;
+			defaul:
+				configTabla.minas=10;
+				configTabla.x=11;
+				configTabla.y=11;
+				configTabla.size=48;
+				break;
+		}
 	primerJugada=false;
 	container.innerHTML='';
-	buscaMina = new Contenedor(10,14,14,container,28);
+	buscaMina = new Contenedor(configTabla.minas,configTabla.x,configTabla.y,container,configTabla.size,configTabla.modo);
+
+}
+
+
+
+function cambiarModo(contador){
+	primerJugada=false;
+	container.innerHTML='';
+		switch (contador) {
+			case 1:
+				configTabla.modo = modos.panal;
+				break;
+			case 2:
+				configTabla.modo = modos.frozen;
+			break;
+			case 3:
+				configTabla.modo = modos.toxico;			
+			break;
+			defaul:
+				configTabla.modo = modos.panal;
+			break;
+		}
+
+	buscaMina = new Contenedor(configTabla.minas,configTabla.x,configTabla.y,container,configTabla.size,configTabla.modo);
+
 	menu.style.height = '0';
+
+}
+
+
+function actualizarTabla(){
 
 }
 
@@ -281,10 +380,21 @@ function reiniciar(){
 
 
 
+let openMenu = document.getElementById('OpenMenu');
+openMenu.onclick = ()=>{
+	menu2.style.height='100%';
+}
+menu2.onclick=()=>{
+	menu2.style.height='0';
+}
+
+
+
+
 
 //estado 1=reposo;
 //estado 2=seleccionado;
-//Estado 3 = minador;
+//Estado 3 = minador;//aveja
 //estado=4 = pared;
 
 
