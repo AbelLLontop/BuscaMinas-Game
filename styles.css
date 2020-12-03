@@ -109,8 +109,8 @@ flex-direction: column;
 
 
 .nodoPanal:hover{
-	border:solid 1px #69e2ba;
-	background: #393939;
+	border:solid 1px #69e2ba !important;
+	background: #393939 !important;
 }
 
 
@@ -133,8 +133,8 @@ flex-direction: column;
 
 
 .nodoFrozen:hover{
-	border:solid 1px #69e2ba;
-	background: #393939;
+	border:solid 1px #69e2ba !important;
+	background: #393939 !important;
 }
 
 
@@ -156,8 +156,8 @@ flex-direction: column;
 
 
 .nodoToxico:hover{
-	border:solid 1px #69e2ba;
-	background: #393939;
+	border:solid 1px #69e2ba !important;
+	background: #393939 !important;
 }
 
 
@@ -230,3 +230,65 @@ body{
 #OpenMenu svg{
 	width: 20px;
 }
+
+
+#menuGanador{
+	background: #00000000;
+	   position: absolute;
+    left: 0;
+    top: 0;
+    color:rgb(255,255,255,0);
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  	width: 0;
+  	z-index: 1;
+  	flex-direction: column;
+  	transition: color 1s ease;
+}
+#menuGanador header{
+    font-size: 60px;
+}
+
+#menuGanador p{
+	font-size: 28px;
+}
+.mostrarWin{
+	color:white !important	;
+}
+
+
+#menuGanador button{
+	border: none;
+    outline: none;
+    background: #ffa500;
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 22px;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 18px !important;
+    border: solid 1px #232a2f
+}
+
+#menuGanador button svg{
+	width: 40px;
+	color:white;
+
+}
+#menuGanador header {
+    font-size: 60px;
+    color: orange;
+}
+#menuGanador button:hover{
+background:#1a1c1e75;
+	border-radius: 4px;
+}
+
+
+
+

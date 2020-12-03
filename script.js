@@ -6,11 +6,15 @@ document.oncontextmenu = function(){
 let textoModo = document.getElementById('modo');
 let menu = document.getElementById('menu');
 let menu2 = document.getElementById('menu2');
+let menuGanador = document.getElementById('menuGanador');
+
+let mensajeWin = document.getElementById('mensajeWin');
 
 let modos = {
 	frozen:{
 		titulo:'Modo Pingui!🐧',
 		clase:'nodoFrozen',
+		mensajeWin:'Hallazte todos los peces 🐟 antes que los tiburones 🦈',
 		normal:{fondo:'#88edf6',shadow:'0px 0px 3px 1px rgb(82 228 229)'},
 		descubierto:{icono:'🐟',color:'blue',fondo:'rgb(27, 27, 27)'},
 		mina:{icono:'🦈',color:'orange',fondo:'rgb(27, 27, 27)'},
@@ -19,6 +23,7 @@ let modos = {
 	panal:{
 		titulo:'Modo Panal🐝',
 		clase:'nodoPanal',
+		mensajeWin:'Conseguiste todos los frascos de Miel 🍯 antes que los osos 🐻',
 		normal:{fondo:'orange',shadow:'1px 1px 1px 4px orange'},
 		descubierto:{icono:'🍯',color:'blue',fondo:'rgb(27, 27, 27)'},
 		mina:{icono:'🐻',color:'orange',fondo:'rgb(27, 27, 27)'},
@@ -28,6 +33,7 @@ let modos = {
 	toxico:{
 		titulo:'Modo Toxic!☢',
 		clase:'nodoToxico',
+		mensajeWin:'Salvaste nuestras vidas ⛨☢ Gracias ⛑, ',
 		normal:{fondo:'#12ff00',shadow:'0px 0px 15px 1px rgb(8 255 52)'},
 		descubierto:{icono:'⛨',color:'#d50101',fondo:'rgb(27, 27, 27)'},
 		mina:{icono:'☢',color:'yellow',fondo:'rgb(27, 27, 27)'},
@@ -49,6 +55,10 @@ var container = document.getElementById('container');
 var primerCuadrito=[1,1];
 var primerJugada=false;
 
+var allMinas=[];
+var contadorBanderas=0;
+
+
 class Contenedor{
 	constructor(nMinas, nNodosH, nNodosV,container,size,modo){
 		this.container = container;
@@ -58,6 +68,7 @@ class Contenedor{
 		this.size = size;
 		this.modo = modo;
 		textoModo.innerHTML = this.modo.titulo;
+		mensajeWin.innerHTML = this.modo.mensajeWin;
 
 		this.nodos = new Array(this.nNodosH);
 		for (var i = 0; i < this.nodos.length; i++) {
@@ -118,6 +129,8 @@ class Contenedor{
 				ym=Math.floor(Math.random() * this.nNodosV);				
 			}
 				this.nodos[xm][ym].mina =true;
+				allMinas.push(this.nodos[xm][ym]);
+
 		}
 	}
 	contabilizar(){
@@ -193,7 +206,7 @@ class Nodo{
 		this.div.classList.add(this.modo.clase);
 	
 		this.div.addEventListener('click',()=>{
-			if(!primerJugada && this.estado!=4){
+			if(!primerJugada && this.estado!=4 && this.estado!=3){
 				primerJugada=true;
 				primerCuadrito=[this.posX,this.posY];
 				agregarMinas(buscaMina,primerCuadrito);
@@ -214,17 +227,27 @@ class Nodo{
 		}
 		})
 		this.div.addEventListener('auxclick',()=>{
+			
 			if(this.estado==3){
+				contadorBanderas--;
 				this.estado=1;
 				this.div.innerHTML =' '
 					this.div.style.background = this.modo.normal.fondo;
 					this.div.style.boxShadow = this.modo.normal.shadow;
 			}else if(this.estado==1){
+				contadorBanderas++;
 				this.estado=3;
 			this.div.innerHTML =this.modo.minador.icono;
 			this.div.style.background = this.modo.minador.fondo;
 			this.div.style.boxShadow = this.modo.minador.shadow;
-			}			
+			}	
+			var minasRestantes = allMinas.filter(e=>e.estado==1);
+			
+				if(primerJugada){
+						if(contadorBanderas==allMinas.length && minasRestantes.length==0){
+							this.ganar();
+						}		
+				}	
 		})
 		this.vecinos ={
 				primero:null,
@@ -277,6 +300,12 @@ class Nodo{
 		activarMinas(buscaMina);
 		menu.style.height = '100%';
 	}
+	ganar(){
+		activarMinas(buscaMina);
+		menuGanador.style.width = '100%';
+		menuGanador.classList.add('mostrarWin')
+	}
+
 }
 
 function activarMinas(buscaMina){
@@ -301,10 +330,6 @@ let configTabla = {
 	size:48,
 	modo:modos.panal
 }
-
-
-
-
 
 
 var buscaMina = new Contenedor(configTabla.minas,configTabla.x,configTabla.y,container,configTabla.size,configTabla.modo);
@@ -338,15 +363,34 @@ function cambiarNivel(contador){
 				configTabla.size=48;
 				break;
 		}
+	 allMinas=[];
+	contadorBanderas=0;
 	primerJugada=false;
 	container.innerHTML='';
 	buscaMina = new Contenedor(configTabla.minas,configTabla.x,configTabla.y,container,configTabla.size,configTabla.modo);
+	menu.style.height = '0';
+	menuGanador.style.width = '0';
 
 }
 
 
 
+function reiniciar(){
+	menuGanador.classList.remove('mostrarWin');
+	allMinas=[];
+	contadorBanderas=0;
+	primerJugada=false;
+	container.innerHTML='';
+	buscaMina = new Contenedor(configTabla.minas,configTabla.x,configTabla.y,container,configTabla.size,configTabla.modo);
+	menu.style.height = '0';
+	menuGanador.style.width = '0';
+}
+
+
+
 function cambiarModo(contador){
+	allMinas=[];
+	contadorBanderas=0;
 	primerJugada=false;
 	container.innerHTML='';
 		switch (contador) {
@@ -367,13 +411,12 @@ function cambiarModo(contador){
 	buscaMina = new Contenedor(configTabla.minas,configTabla.x,configTabla.y,container,configTabla.size,configTabla.modo);
 
 	menu.style.height = '0';
+	menuGanador.style.width = '0';
 
 }
 
 
-function actualizarTabla(){
 
-}
 
 
 
