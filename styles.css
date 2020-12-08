@@ -5,8 +5,12 @@
 	user-select: none;
 	font-family: 'calibri';
 }
- 
+ html{
+ 	height: 100%;
+ 	width: 100%;
+ }
 #contenedorPrincipal{
+	height: 100%;
 	display: flex;
 	width: 100%;
 	justify-content: center;
@@ -162,15 +166,10 @@ flex-direction: column;
 
 
 
-
-
-
-
-
-
-
 body{
 	background: #202020;
+	width: 100%;
+	height: 100%;
 }
 
 
@@ -233,8 +232,8 @@ body{
 
 
 #menuGanador{
-	background: #00000000;
-	   position: absolute;
+	background: #00000080;
+	position: absolute;
     left: 0;
     top: 0;
     color:rgb(255,255,255,0);
@@ -246,7 +245,7 @@ body{
   	width: 0;
   	z-index: 1;
   	flex-direction: column;
-  	transition: color 1s ease;
+  	transition: width .4s ease;
 }
 #menuGanador header{
     font-size: 60px;
@@ -255,39 +254,53 @@ body{
 #menuGanador p{
 	font-size: 28px;
 }
+
 .mostrarWin{
-	color:white !important	;
+	color:#00bcf2 !important	;
 }
+
+.win{
+ font-size: 80px !important;
+ font-weight: bold;
+ color:#1881e5 !important;
+}
+#mensajeWin{
+	font-size: 20px !important;
+	font-weight: normal;
+}
+
+
+
+
 
 
 #menuGanador button{
 	border: none;
     outline: none;
-    background: #ffa500;
+    background: none;
     display: flex;
     align-items: center;
-    color: white;
-    font-size: 22px;
-    gap: 8px;
     cursor: pointer;
-    padding: 8px 14px;
-    border-radius: 18px !important;
-    border: solid 1px #232a2f
+    justify-content: center;
+    border-radius: 50%;
+    transition: all .4s ease;
 }
 
 #menuGanador button svg{
-	width: 40px;
-	color:white;
+	width: 48px;
+	height: 48px;
+	color:#1b3e52;
 
 }
 #menuGanador header {
     font-size: 60px;
     color: orange;
 }
-#menuGanador button:hover{
-background:#1a1c1e75;
-	border-radius: 4px;
+#menuGanador button svg:hover{
+	color:#2b566f;
 }
+
+
 
 
 

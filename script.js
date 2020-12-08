@@ -16,8 +16,8 @@ let modos = {
 		clase:'nodoFrozen',
 		mensajeWin:'Hallazte todos los peces 🐟 antes que los tiburones 🦈',
 		normal:{fondo:'#88edf6',shadow:'0px 0px 3px 1px rgb(82 228 229)'},
-		descubierto:{icono:'🐟',color:'blue',fondo:'rgb(27, 27, 27)'},
-		mina:{icono:'🦈',color:'orange',fondo:'rgb(27, 27, 27)'},
+		descubierto:{icono:'🐟',color:'blue',fondo:'rgb(27, 27, 27)',shadow:'none'},
+		mina:{icono:'🦈',color:'orange',fondo:'rgb(27, 27, 27)',shadow:'none'},
 		minador:{icono:'🐧',color:'red',fondo:'',shadow:'0px 0px 3px 1px rgb(82 228 229)'}		
 	},
 	panal:{
@@ -25,8 +25,8 @@ let modos = {
 		clase:'nodoPanal',
 		mensajeWin:'Conseguiste todos los frascos de Miel 🍯 antes que los osos 🐻',
 		normal:{fondo:'orange',shadow:'1px 1px 1px 4px orange'},
-		descubierto:{icono:'🍯',color:'blue',fondo:'rgb(27, 27, 27)'},
-		mina:{icono:'🐻',color:'orange',fondo:'rgb(27, 27, 27)'},
+		descubierto:{icono:'🍯',color:'blue',fondo:'rgb(27, 27, 27)',shadow:'none'},
+		mina:{icono:'🐻',color:'orange',fondo:'rgb(27, 27, 27)',shadow:'none'},
 		minador:{icono:'🐝',color:'red',fondo:'',shadow:'1px 1px 1px 4px orange'}
 
 	},
@@ -35,8 +35,8 @@ let modos = {
 		clase:'nodoToxico',
 		mensajeWin:'Salvaste nuestras vidas ⛨☢ Gracias ⛑, ',
 		normal:{fondo:'#12ff00',shadow:'0px 0px 15px 1px rgb(8 255 52)'},
-		descubierto:{icono:'⛨',color:'#d50101',fondo:'rgb(27, 27, 27)'},
-		mina:{icono:'☢',color:'yellow',fondo:'rgb(27, 27, 27)'},
+		descubierto:{icono:'⛨',color:'#d50101',fondo:'rgb(27, 27, 27)',shadow:'none'},
+		mina:{icono:'☢',color:'yellow',fondo:'rgb(27, 27, 27)',shadow:'none'},
 		minador:{icono:'⛑',color:'red',fondo:'#2c8c25',shadow:'none'}
 	}
 }
@@ -182,11 +182,12 @@ class Contenedor{
 					this.nodos[i][j].div.innerHTML =this.modo.descubierto.icono;
 						this.nodos[i][j].div.style.color=this.modo.descubierto.color;	
 						this.nodos[i][j].div.style.background=this.modo.descubierto.fondo;
-	
+					this.nodos[i][j].div.style.boxShadow =this.modo.descubierto.shadow;
 
 					}else{
 					this.nodos[i][j].div.innerHTML =this.modo.mina.icono
-					this.nodos[i][j].div.style.color=this.modo.mina.color;	
+					this.nodos[i][j].div.style.color=this.modo.mina.color;
+					this.nodos[i][j].div.style.boxShadow=this.modo.mina.shadow;	
 					this.nodos[i][j].div.style.background=this.modo.mina.fondo;
 
 					}
@@ -217,6 +218,7 @@ class Nodo{
 			if(this.mina){
 				this.div.innerHTML =this.modo.mina.icono
 				this.div.style.color = this.modo.mina.color;
+				this.div.style.boxShadow = this.modo.mina.shadow;
 				this.estado=2;
 				this.muerte();
 			}else{
